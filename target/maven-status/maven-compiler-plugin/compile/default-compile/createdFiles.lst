@@ -1,0 +1,5 @@
+com\mycompany\casoobserver\IObserver.class
+com\mycompany\casoobserver\IObservable.class
+com\mycompany\casoobserver\Server.class
+com\mycompany\casoobserver\CasoObserver.class
+com\mycompany\casoobserver\ClienteHandler.class
