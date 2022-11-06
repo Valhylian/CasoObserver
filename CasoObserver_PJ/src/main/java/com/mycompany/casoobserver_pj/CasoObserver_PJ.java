@@ -3,13 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
  */
 
-package com.mycompany.casoobserver;
+package com.mycompany.casoobserver_pj;
 
 /**
  *
  * @author valer
  */
-public class CasoObserver {
+public class CasoObserver_PJ {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
