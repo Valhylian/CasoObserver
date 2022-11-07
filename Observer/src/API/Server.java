@@ -10,14 +10,28 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Server {
+public class Server extends AbstractObservable{
+    private static Server server;
+    private final int PORT = 1234;
+    private static ServerSocket ss;
+    private static ArrayList<Object> auxiliar = new ArrayList<>();
 
-    static ArrayList<ClientHandler> clientes = new ArrayList<>();
-    public static ArrayList<ClientHandler> principales = new ArrayList<>();
+    private Server() throws IOException {
+        this.ss = new ServerSocket(PORT);
+    }
+
+    public static Server getInstance() throws IOException {
+        if (server == null) {
+            server = new Server();
+        }
+        return server;
+    }
+
 
     public static void main(String[] args) throws IOException {
+
         // server is listening on port 1234
-        ServerSocket ss = new ServerSocket(1234);
+        Server server = getInstance();
 
         Socket s;
 
@@ -35,13 +49,13 @@ public class Server {
             System.out.println("Creating a new handler for this client...");
 
             // Create a new handler object for handling this request.
-            ClientHandler mtch = new ClientHandler(s,dis, dos, 0);
+            ClientHandler mtch = new ClientHandler(s,dis, dos, 0,server);
 
             Thread t = new Thread(mtch);
 
             System.out.println("Adding this client to active client list");
             // add this client to active clients list
-            clientes.add(mtch);
+            server.addObserver(mtch);
             // start the thread.
             t.start();
         }

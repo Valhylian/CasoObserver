@@ -1,13 +1,12 @@
 package Subasta;
 
-import java.util.ArrayList;
-import API.ClientHandler;
-public class Subasta {
+import API.AbstractObservable;
+
+public class Subasta extends AbstractObservable {
     String name;
     int lastOfert;
     int inicio;
     Producto producto;
-    ArrayList<ClientHandler> asociados = new ArrayList<ClientHandler>();
 
     public Subasta(String name, int lastOfert, int inicio, Producto producto){
         this.name = name;

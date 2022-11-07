@@ -47,13 +47,13 @@ public class ReadMessage extends Thread {
                         "Producto": "algo",
                         "Precio Incial": "0"}]
                      }
-                    * */
+                    *
                     JSONArray jsonArray = json.getJSONArray("data");
                     ClienteSubasta_GUI.comboBox1.
                     PantallaJugador.frame.dispose();
                     jeje = new PantallaSecundaria(jugador, dis, dos);
                     System.out.println("Jugador"+jugador.name);
-                    jeje.init();
+                    jeje.init(); */
                 }
 
             } catch (IOException e) {

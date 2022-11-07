@@ -14,12 +14,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class ClienteSubasta_GUI extends JDialog {
-    public static JPanel panel_cliente;
-    public static JButton Btn_conectar;
-    public static JComboBox comboBox1;
-    public static JButton btn_Asociar;
-    public static JTextField text_nick;
-    final static int ServerPort = 1234;
+    public  JPanel panel_cliente;
+    public  JButton Btn_conectar;
+    public  JComboBox comboBox1;
+    public  JButton btn_Asociar;
+    public  JTextField text_nick;
+    final  int ServerPort = 1234;
     public static DataOutputStream dos;
     public static DataInputStream dis;
 

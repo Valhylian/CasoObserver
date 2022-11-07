@@ -8,20 +8,26 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable, IObserver{
     private Socket client;
     final DataInputStream dis;
     final DataOutputStream dos;
-    public String informacionPrincipales;
-
+    public IObserver observable;
     public int id;
+    public Server server;
 
+    @Override
+    public void notifyObserver(String command, Object source) {
 
-    public ClientHandler(Socket client, DataInputStream dis, DataOutputStream dos, int id) throws IOException {
+    }
+
+    public ClientHandler(Socket client, DataInputStream dis, DataOutputStream dos, int id,
+                         Server server) throws IOException {
         this.client = client;
         this.dis = dis;
         this.dos = dos;
         this.id = id;
+        this.server = server;
     }
 
     @Override
@@ -55,20 +61,20 @@ public class ClientHandler implements Runnable{
                     String asuntoStr = asunto.toString();
 
                     if (asuntoStr.equals("Pincipal")) {
-                        this.id = Server.principales.size();
-                        Server.principales.add(this);
+                        this.id = server.addPrincipal(this);
                         System.out.println("agregado");
                     }
 
                     if (asuntoStr.equals("Cliente")) {
-                        informacionPrincipales = "";
-                        for (ClientHandler cliente : Server.principales){
-                            cliente.dos.writeUTF("Mande");
+                        for (IObserver cliente : Server.observers){
+                            cliente.notifyObserver("Send",this);
                         }
-
-                        this.id = Server.principales.size();
-                        Server.principales.add(this);
+                        this.id = server.addObserver(this);
                         System.out.println("agregado");
+                    }
+
+                    if (asuntoStr.equals("Send")){
+
                     }
 
 
