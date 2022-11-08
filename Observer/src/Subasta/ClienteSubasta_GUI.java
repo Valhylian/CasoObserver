@@ -1,14 +1,13 @@
 package Subasta;
 
+import API.Paquete;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -20,8 +19,8 @@ public class ClienteSubasta_GUI extends JDialog {
     public  JButton btn_Asociar;
     public  JTextField text_nick;
     final  int ServerPort = 1234;
-    public static DataOutputStream dos;
-    public static DataInputStream dis;
+    public static ObjectOutputStream dos;
+    public static ObjectInputStream dis;
 
     public static Oferente oferente;
 
@@ -50,16 +49,16 @@ public class ClienteSubasta_GUI extends JDialog {
                     Socket s = new Socket(ip, ServerPort);
 
                     // obtaining input and out streams
-                    DataInputStream dis = new DataInputStream(s.getInputStream());
-                    dos = new DataOutputStream(s.getOutputStream());
-                    dis = new DataInputStream(s.getInputStream());
+
+                    dos = new ObjectOutputStream(s.getOutputStream());
+                    dis = new ObjectInputStream(s.getInputStream());
                     Btn_conectar.setEnabled(false);
 
-                    JSONObject jsonEnviado = new JSONObject();
-                    jsonEnviado.put("asunto", "Cliente");
-                    String mess = jsonEnviado.toString();
-                    dos.writeUTF(mess);
+                    ReadMessage readMessage = new ReadMessage(null,dis,dos);
+                    readMessage.start();
 
+                    Paquete paqueteEnviado = new Paquete("Cliente",null);
+                    dos.writeObject(paqueteEnviado);
 
                 } catch (UnknownHostException ex) {
                     JOptionPane.showMessageDialog(null, "Server inactivo", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);

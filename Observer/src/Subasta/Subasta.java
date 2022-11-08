@@ -2,7 +2,9 @@ package Subasta;
 
 import API.AbstractObservable;
 
-public class Subasta extends AbstractObservable {
+import java.io.Serializable;
+
+public class Subasta extends AbstractObservable implements Serializable {
     String name;
     int lastOfert;
     int inicio;

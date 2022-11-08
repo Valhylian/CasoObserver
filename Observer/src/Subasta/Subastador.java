@@ -1,16 +1,17 @@
 package Subasta;
 
+import API.Paquete;
+import API.Server;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.security.Principal;
 
 public class Subastador extends JDialog {
     private JTextField txt_Producto;
@@ -18,7 +19,8 @@ public class Subastador extends JDialog {
     private JSpinner Sp_price;
     private JButton Btn_conectarse;
     private JPanel JPanel_Subastador;
-    public static DataOutputStream dos;
+    public static ObjectOutputStream dos;
+    public static ObjectInputStream dis;
     final static int ServerPort = 1234;
     public  Subasta subasta = null;
 
@@ -30,9 +32,8 @@ public class Subastador extends JDialog {
         Socket s = new Socket(ip, ServerPort);
 
         // obtaining input and out streams
-        DataInputStream dis = new DataInputStream(s.getInputStream());
-        dos = new DataOutputStream(s.getOutputStream());
-
+        dos = new ObjectOutputStream(s.getOutputStream());
+        dis = new ObjectInputStream(s.getInputStream());
         Subastador window = new Subastador(null);
 
 
@@ -49,7 +50,7 @@ public class Subastador extends JDialog {
         Btn_conectarse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //MANDE UN MENSAJE DICEINDO LISTO
+                //MANDE UN MENSAJE DICIENDO LISTO
                 try {
                     String producto = txt_Producto.getText();
                     String nickname = txt_Nick.getText();
@@ -57,13 +58,12 @@ public class Subastador extends JDialog {
 
                     Producto producto1 = new Producto(producto,null);
                     subasta  = new Subasta(nickname, price, price, producto1);
-                    JSONObject jsonEnviado = new JSONObject();
-                    jsonEnviado.put("asunto", "Pincipal");
-                    String mess = jsonEnviado.toString();
-                    dos.writeUTF(mess);
+                    Paquete nuevaSubasta = new Paquete("Principal",subasta);
+
+                    dos.writeObject(nuevaSubasta);
 
                     Btn_conectarse.setEnabled(false);
-
+                    dispose();
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

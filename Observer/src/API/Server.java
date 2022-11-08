@@ -3,9 +3,7 @@ package API;
 import API.ClientHandler;
 import Subasta.Subasta;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ public class Server extends AbstractObservable{
     private static Server server;
     private final int PORT = 1234;
     private static ServerSocket ss;
-    private static ArrayList<Object> auxiliar = new ArrayList<>();
+    public ArrayList<Object> Observables = new ArrayList<>();
 
     private Server() throws IOException {
         this.ss = new ServerSocket(PORT);
@@ -25,6 +23,10 @@ public class Server extends AbstractObservable{
             server = new Server();
         }
         return server;
+    }
+
+    public void addPaquete(Object nuevoPaquete){
+        server.Observables.add(nuevoPaquete);
     }
 
 
@@ -43,13 +45,13 @@ public class Server extends AbstractObservable{
 
             System.out.println("New client request received : " + s);
             // obtain input and output streams
-            DataInputStream dis = new DataInputStream(s.getInputStream());
-            DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+            ObjectInputStream dis = new ObjectInputStream(s.getInputStream());
+            ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
 
             System.out.println("Creating a new handler for this client...");
 
             // Create a new handler object for handling this request.
-            ClientHandler mtch = new ClientHandler(s,dis, dos, 0,server);
+            ClientHandler mtch = new ClientHandler(s,dis, dos, 0);
 
             Thread t = new Thread(mtch);
 

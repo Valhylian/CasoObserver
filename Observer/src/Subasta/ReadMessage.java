@@ -1,26 +1,25 @@
 package Subasta;
 
+import API.Paquete;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 
 public class ReadMessage extends Thread {
-    ClienteSubasta_GUI clientePantalla;
-    DataInputStream dis;
-    DataOutputStream dos;
+    Oferente_GUI clientePantalla;
+    ObjectInputStream dis;
+    ObjectOutputStream dos;
     Oferente oferente;
 
-    public ReadMessage(Oferente oferente, DataInputStream dis, DataOutputStream dos, ClienteSubasta_GUI clientePantalla) {
+    public ReadMessage(Oferente oferente, ObjectInputStream dis, ObjectOutputStream dos) {
         super();
         this.oferente = oferente;
         this.dis = dis;
         this.dos = dos;
-        this.clientePantalla = clientePantalla;
     }
 
     @Override
@@ -28,37 +27,18 @@ public class ReadMessage extends Thread {
         while (true) {
 
             try {
-                JSONParser parser = new JSONParser();
-                JSONObject json;
-                // read the message sent to this client
-                String msg = dis.readUTF();
-                json = (JSONObject) parser.parse(msg);
-                Object asunto = json.get("asunto");
-                String asuntoStr = asunto.toString();
+                Paquete paquete = (Paquete) dis.readObject();
 
-                if (asuntoStr.equals("TodoListo")) {
-                    /* FORMATO JSON
-
-                    {Asunto: "aja", "Data":
-                        [{"Subasta":"1",
-                        "Producto": "algo",
-                        "Precio Incial": "0"},
-                        {"Subasta":"2",
-                        "Producto": "algo",
-                        "Precio Incial": "0"}]
-                     }
-                    *
-                    JSONArray jsonArray = json.getJSONArray("data");
-                    ClienteSubasta_GUI.comboBox1.
-                    PantallaJugador.frame.dispose();
-                    jeje = new PantallaSecundaria(jugador, dis, dos);
-                    System.out.println("Jugador"+jugador.name);
-                    jeje.init(); */
+                if (paquete.asunto.equals("info")) {
+                    clientePantalla = new Oferente_GUI(dis,dos);
+                    clientePantalla.init();
+                    
                 }
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            } catch (ParseException e) {
+
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }

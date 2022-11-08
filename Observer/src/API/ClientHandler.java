@@ -10,8 +10,9 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable, IObserver{
     private Socket client;
-    final DataInputStream dis;
-    final DataOutputStream dos;
+    final ObjectInputStream dis;
+    final ObjectOutputStream dos;
+    //Esto no debería ser un IObservable?
     public IObserver observable;
     public int id;
     public Server server;
@@ -21,71 +22,48 @@ public class ClientHandler implements Runnable, IObserver{
 
     }
 
-    public ClientHandler(Socket client, DataInputStream dis, DataOutputStream dos, int id,
-                         Server server) throws IOException {
+    public ClientHandler(Socket client, ObjectInputStream dis, ObjectOutputStream dos, int id) throws IOException {
         this.client = client;
         this.dis = dis;
         this.dos = dos;
         this.id = id;
-        this.server = server;
+        this.server = Server.getInstance();
     }
 
     @Override
     public void run(){
         String received;
         try {
-            JSONObject jsonEnviado = new JSONObject();
-            jsonEnviado.put("asunto", "setNombre");
-            String mess = jsonEnviado.toString();
-            this.dos.writeUTF(mess);
+            Paquete paqueteEnviado = new Paquete("Cliente Conectado",null);
+            dos.writeObject(paqueteEnviado);
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         while (true) {
             try {
-                // receive the string
-                received = dis.readUTF();
-                System.out.println(received);
+                // receive the string;
+                Paquete objectoRecibido = (Paquete) dis.readObject();
+                System.out.println(objectoRecibido);
 
-                if(received.equals("logout")){
+                if(objectoRecibido.asunto.equals("logout")){
                     break;
                 }
 
-                JSONParser parser = new JSONParser();
-                JSONObject json;
+                if (objectoRecibido.asunto.equals("Principal")) {
+                    server.addPaquete(objectoRecibido.contenido);
+                }
 
-                try {
-                    json = (JSONObject) parser.parse(received);
-                    Object asunto = json.get("asunto");
-                    String asuntoStr = asunto.toString();
-
-                    if (asuntoStr.equals("Pincipal")) {
-                        this.id = server.addPrincipal(this);
-                        System.out.println("agregado");
-                    }
-
-                    if (asuntoStr.equals("Cliente")) {
-                        for (IObserver cliente : Server.observers){
-                            cliente.notifyObserver("Send",this);
-                        }
-                        this.id = server.addObserver(this);
-                        System.out.println("agregado");
-                    }
-
-                    if (asuntoStr.equals("Send")){
-
-                    }
-
-
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                if (objectoRecibido.asunto.equals("Cliente")) {
+                    System.out.println("llegaaa");
+                    dos.writeObject(new Paquete("info",server.Observables));
                 }
 
             } catch (IOException e) {
 
                 e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
 
         }
