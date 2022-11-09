@@ -9,7 +9,7 @@ public class Subasta extends AbstractObservable implements Serializable {
     int lastOfert;
     int inicio;
     Producto producto;
-    //ARRAYLIS OFERTAS   --NAME PERSONA --INDEX PERSONA -- INDEX OFERTA --PUSH
+    //ARRAYLIST OFERTAS   --NAME PERSONA --INDEX PERSONA -- INDEX OFERTA --PUSH
 
     public Subasta(String name, int lastOfert, int inicio, Producto producto){
         this.name = name;

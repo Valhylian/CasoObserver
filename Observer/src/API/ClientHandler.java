@@ -53,12 +53,13 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                 if(objectoRecibido.asunto.equals("logout")){
                     break;
                 }
-
+                //Llega un nuevo cliente (SubastadorS / CelebridadS)
                 if(objectoRecibido.asunto.equals("Prueeeeba")){
                     System.out.println("llega aca");
                     dos.writeObject(new Paquete("listo",server.Observables));
                 }
 
+                //Se crea nueva subasta (Subastador_GUI)
                 if (objectoRecibido.asunto.equals("Principal")) {
                     server.addPaquete(objectoRecibido.contenido);
                     //obtener referencia del principal
@@ -72,7 +73,7 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                     dos.writeObject(new Paquete("setId",Integer.toString(id), Tipos.SUBASTA));
                     dos.writeObject(new Paquete("info",server.Observables));
                 }
-
+                //Nos asociamos a una nueva subasta (Oferente_GUI)
                 if (objectoRecibido.asunto.equals("Asociarse")){
                     int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
 
@@ -89,7 +90,7 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                     //dos.writeObject(new Paquete("listo",server.Observables));
 
                 }
-
+                //Pushamos un precio para una subasta (Oferente_GUI)
                 if (objectoRecibido.asunto.equals("push_subasta")) {
                     int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
 
@@ -100,6 +101,15 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                         //dos.writeObject(new Paquete("push_aceptado",subasta));
                     }
                 }
+
+                //Celebridad hace un nuevo post (todavia no lo enviamos a sus followers)
+                if (objectoRecibido.asunto.equals("PostCelebridad")) {
+                    System.out.println("Nuevo post celebridad: "+objectoRecibido.informacion+"\n "+objectoRecibido.sourceAux);
+                    //
+                }
+
+
+
 
 
 

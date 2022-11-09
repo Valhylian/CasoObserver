@@ -32,7 +32,7 @@ public class Paquete implements Serializable {
         this.informacion = info;
         this.tipo = tipo;
     }
-
+    //Cliente oferente hace push a subasta
     public Paquete (String _asunto, String nombreSubasta,int idOferente, String nombreOferente, int precioPush,Tipos tipo){
         this.asunto = _asunto;
         this.informacion = nombreSubasta; //MUY IMPORTANTE!
@@ -40,6 +40,13 @@ public class Paquete implements Serializable {
         this.sourceAux = nombreOferente;
         this.precioPush = precioPush;
         this.tipo = tipo;
+    }
+    //Celebridad postea
+    public Paquete (String _asunto, String nombreCelebridad, String texto){
+        this.asunto = _asunto;
+        this.informacion = nombreCelebridad; //MUY IMPORTANTE!
+        this.sourceAux = texto;
+
     }
 
 
