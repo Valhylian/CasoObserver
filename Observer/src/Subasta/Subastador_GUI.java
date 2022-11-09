@@ -47,7 +47,7 @@ public class Subastador_GUI {
     }
 
     public Subastador_GUI(ObjectInputStream dis, ObjectOutputStream dos, SubastadorS subastador) {
-        initialize(dis, dos);
+        initialize();
 
         btnCrearOferta.addActionListener(new ActionListener() {
             @Override
@@ -74,7 +74,7 @@ public class Subastador_GUI {
         });
     }
 
-    private void initialize(ObjectInputStream dis, ObjectOutputStream dos) {
+    private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 813, 727);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

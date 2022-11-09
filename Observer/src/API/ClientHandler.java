@@ -54,14 +54,21 @@ public class ClientHandler implements Runnable, IObserver{
                     break;
                 }
 
+                if(objectoRecibido.asunto.equals("Prueeeeba")){
+                    System.out.println("llega aca");
+                    dos.writeObject(new Paquete("listo",server.Observables));
+                }
+
                 if (objectoRecibido.asunto.equals("Principal")) {
                     server.addPaquete(objectoRecibido.contenido);
                     //obtener referencia del principal
                     server.addPrincipal(this);
+                    dos.writeObject(new Paquete("listo",server.Observables));
                 }
 
                 if (objectoRecibido.asunto.equals("Cliente")) {
                     System.out.println("llegaaa");
+                    server.addObserver(this);
                     dos.writeObject(new Paquete("info",server.Observables));
                 }
 
@@ -71,12 +78,11 @@ public class ClientHandler implements Runnable, IObserver{
 
                     Paquete msg = new Paquete("AddSocio","prueba");
                     server.notifyPrincipal(index,msg);
+                    //dos.writeObject(new Paquete("listo",server.Observables));
 
                 }
 
-                if (objectoRecibido.asunto.equals("AddSocio")){
-                    System.out.println("siuuuuuu ");
-                }
+
 
             } catch (IOException e) {
 

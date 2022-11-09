@@ -8,7 +8,7 @@ public class Paquete implements Serializable {
     public Object contenido;
     public String informacion;
     public Tipos tipo;
-    public Socket source;
+    public String source;
 
 
     public Paquete (String _asunto, Object _contenido){
@@ -17,7 +17,7 @@ public class Paquete implements Serializable {
         this.informacion = null;
     }
 
-    public Paquete (String asunto, String info, Tipos tipo, Socket socket){
+    public Paquete (String asunto, String info, Tipos tipo, String socket){
         this.asunto=asunto;
         this.informacion = info;
         this.tipo = tipo;

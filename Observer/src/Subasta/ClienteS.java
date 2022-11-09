@@ -16,8 +16,6 @@ public class ClienteS {
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
         String nickname = br.readLine();
 
-
-
         // getting localhost ip
         InetAddress ip = null;
         try {

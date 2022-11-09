@@ -57,7 +57,7 @@ public class Oferente_GUI {
                 //ENVIAR ASOCIARSE A X SUBASTA
                 try {
                     String nombreSubasta = (String) comboBox.getSelectedItem();
-                    Paquete msg = new Paquete("Asociarse",nombreSubasta, Tipos.SUBASTA);
+                    Paquete msg = new Paquete("Asociarse",nombreSubasta, Tipos.SUBASTA, oferente.nickname);
                     dos.writeObject(msg);
 
                 } catch (IOException e1) {
