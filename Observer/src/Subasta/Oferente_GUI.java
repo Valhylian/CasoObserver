@@ -60,12 +60,30 @@ public class Oferente_GUI {
                     Paquete msg = new Paquete("Asociarse",nombreSubasta, Tipos.SUBASTA, oferente.id,oferente.nickname);
                     dos.writeObject(msg);
 
+
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
-        } );
+        });
+
+        btn_ofetar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //pujar a subasta
+                try {
+                    String nombreSubasta = (String) comboBoxAsociadas.getSelectedItem();
+                    int precioPush = (Integer) sp_oferta.getValue();
+                    Paquete msg = new Paquete("push_subasta",nombreSubasta,oferente.id,oferente.nickname,precioPush, API.Tipos.SUBASTA);
+                    dos.writeObject(msg);
+
+
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 
     private void initialize() {
@@ -110,6 +128,20 @@ public class Oferente_GUI {
             Subasta subastaAux = (Subasta) subasta;
             comboBox.addItem(subastaAux.name);
         }
+        frame.getContentPane().repaint();
+    }
+
+
+
+    public void actSubscritas (Subasta info){
+
+        comboBoxAsociadas.addItem(info.name);
+        frame.getContentPane().repaint();
+    }
+
+    public void meterseLinea (String info){
+
+        consola.append("\n"+info);
         frame.getContentPane().repaint();
     }
 }

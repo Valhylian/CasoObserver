@@ -13,7 +13,7 @@ public class  Producto implements Serializable {
     public Producto(String nombre, String descripcion, Image imagen){
         this.imagen = imagen;
         this.descripcion = descripcion;
-        this.name = name;
+        this.name = nombre;
     }
 
 }

@@ -45,6 +45,13 @@ public class ReadMessage_Subastador extends Thread{
 
                 }
 
+                if (paquete.asunto.equals("push_subasta")){
+                    //add oferta
+
+                    window.meterseLinea("Cliente: "+paquete.sourceAux+ "pushea: "+paquete.precioPush);
+
+                }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
 

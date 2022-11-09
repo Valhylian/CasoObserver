@@ -39,6 +39,16 @@ public class ReadMessage extends Thread {
                     clientePantalla.actInterfaz((ArrayList<Object>) paquete.contenido);
                 }
 
+                if (paquete.asunto.equals("info_subasta")) {
+                    Subasta subasta = (Subasta) paquete.contenido;
+                    oferente.subscritas.add(subasta);
+                    clientePantalla.actSubscritas(subasta);
+                    String muchoTexto = subasta.name+" "+subasta.producto.name+" "+subasta.producto.descripcion+" Precio: "+Integer.toString(subasta.lastOfert);
+                    clientePantalla.meterseLinea(muchoTexto);
+                }
+
+
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
 

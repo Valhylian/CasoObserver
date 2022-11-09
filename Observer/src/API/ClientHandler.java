@@ -83,10 +83,22 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
 
                         Paquete msg = new Paquete("AddSocio",objectoRecibido.sourceAux, Tipos.SUBASTA);
                         server.notifyPrincipal(index,msg);
+                        dos.writeObject(new Paquete("info_subasta",subasta));
                     }
 
                     //dos.writeObject(new Paquete("listo",server.Observables));
 
+                }
+
+                if (objectoRecibido.asunto.equals("push_subasta")) {
+                    int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
+
+                    if (objectoRecibido.tipo == Tipos.SUBASTA){
+                        Subasta subasta = (Subasta) server.Observables.get(index);
+                        //Paquete msg = new Paquete("nuevo_push",objectoRecibido.sourceAux);
+                        server.notifyPrincipal(index,objectoRecibido);
+                        //dos.writeObject(new Paquete("push_aceptado",subasta));
+                    }
                 }
 
 
