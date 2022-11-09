@@ -27,6 +27,9 @@ public class Oferente_GUI {
     /**
      * Launch the application.
      */
+
+
+
     public void init() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
