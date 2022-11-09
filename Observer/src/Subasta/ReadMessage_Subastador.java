@@ -41,8 +41,7 @@ public class ReadMessage_Subastador extends Thread{
 
                 }
                 if (paquete.asunto.equals("AddSocio")){
-                    System.out.println(paquete.informacion);
-
+                    window.meterseLinea("Se unio el cliente: "+paquete.informacion);
 
                 }
 

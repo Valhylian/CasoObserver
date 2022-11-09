@@ -64,10 +64,10 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                     //obtener referencia del principal
                     server.addPrincipal(this);
                     dos.writeObject(new Paquete("listo",server.Observables));
+                    //notificar nueva subasta a todos
                 }
 
                 if (objectoRecibido.asunto.equals("Cliente")) {
-                    System.out.println("llegaaa");
                     server.addObserver(this);
                     dos.writeObject(new Paquete("setId",Integer.toString(id), Tipos.SUBASTA));
                     dos.writeObject(new Paquete("info",server.Observables));
@@ -81,7 +81,7 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                         subasta.addObserver(server.observers.get(objectoRecibido.source));
                         //Agregar cliente a subasta
 
-                        Paquete msg = new Paquete("AddSocio",objectoRecibido.informacion, Tipos.SUBASTA);
+                        Paquete msg = new Paquete("AddSocio",objectoRecibido.sourceAux, Tipos.SUBASTA);
                         server.notifyPrincipal(index,msg);
                     }
 

@@ -121,6 +121,10 @@ public class Subastador_GUI {
         frame.getContentPane().add(terminarSubasta);
     }
 
-    
+    public void meterseLinea (String info){
+
+        consola.append("\n"+info);
+        frame.getContentPane().repaint();
+    }
 
 }
