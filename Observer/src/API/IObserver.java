@@ -4,6 +4,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public interface IObserver {
-    public void notifyObserver(String command, Object source);
+    public void notifyObserver(Paquete paquete);
     public Socket returnSocket ();
 }

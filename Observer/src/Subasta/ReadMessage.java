@@ -30,6 +30,9 @@ public class ReadMessage extends Thread {
 
             try {
                 Paquete paquete = (Paquete) dis.readObject();
+                if (paquete.asunto.equals("setId")) {
+                    oferente.id = Integer.parseInt(paquete.informacion) ;
+                }
 
                 if (paquete.asunto.equals("info")) {
 

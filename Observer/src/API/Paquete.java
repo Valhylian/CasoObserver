@@ -8,7 +8,8 @@ public class Paquete implements Serializable {
     public Object contenido;
     public String informacion;
     public Tipos tipo;
-    public String source;
+    public int source;
+    public String sourceAux;
 
 
     public Paquete (String _asunto, Object _contenido){
@@ -17,11 +18,12 @@ public class Paquete implements Serializable {
         this.informacion = null;
     }
 
-    public Paquete (String asunto, String info, Tipos tipo, String socket){
+    public Paquete (String asunto, String info, Tipos tipo, int socket,String sourceAux){
         this.asunto=asunto;
         this.informacion = info;
         this.tipo = tipo;
         this.source = socket;
+        this.sourceAux = sourceAux;
     }
     public Paquete (String asunto, String info, Tipos tipo){
         this.asunto=asunto;

@@ -51,7 +51,7 @@ public class Server extends AbstractObservable{
             System.out.println("Creating a new handler for this client...");
 
             // Create a new handler object for handling this request.
-            ClientHandler mtch = new ClientHandler(s,dis, dos, 0);
+            ClientHandler mtch = new ClientHandler(s,dis, dos, observers.size());
 
             Thread t = new Thread(mtch);
 
@@ -74,4 +74,8 @@ public class Server extends AbstractObservable{
         }
         return 0;
     }
+
+
+
+
 }

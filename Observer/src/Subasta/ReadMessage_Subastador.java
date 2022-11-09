@@ -41,7 +41,9 @@ public class ReadMessage_Subastador extends Thread{
 
                 }
                 if (paquete.asunto.equals("AddSocio")){
-                    System.out.println("siuuuuuu ");
+                    System.out.println(paquete.informacion);
+
+
                 }
 
             } catch (IOException e) {

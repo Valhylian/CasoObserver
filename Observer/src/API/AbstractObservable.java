@@ -31,7 +31,7 @@ public abstract class AbstractObservable implements IObservable{
     @Override
     public void notifyPrincipals(String command, Object source) {
         for (ClientHandler observer : principales) {
-            observer.notifyObserver(command, source);
+            observer.notifyObserver(null);
         }
     }
 
@@ -41,10 +41,16 @@ public abstract class AbstractObservable implements IObservable{
 
     }
 
+    public void notifyObserver_Index(int index, Paquete paquete) throws IOException {
+        ClientHandler cliente = observers.get(index);
+        cliente.dos.writeObject(paquete);
+
+    }
+
     @Override
     public void notifyAllObservers(String command, Object source) {
         for (ClientHandler observer : observers) {
-            observer.notifyObserver(command, source);
+            observer.notifyObserver(null);
         }
 
     }

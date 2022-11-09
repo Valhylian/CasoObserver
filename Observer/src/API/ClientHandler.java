@@ -8,7 +8,7 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable, IObserver{
+public class ClientHandler implements Runnable, IObserver, Serializable{
     private Socket client;
     final ObjectInputStream dis;
     final ObjectOutputStream dos;
@@ -18,7 +18,7 @@ public class ClientHandler implements Runnable, IObserver{
     public Server server;
 
     @Override
-    public void notifyObserver(String command, Object source) {
+    public void notifyObserver(Paquete paquete) {
 
     }
     @Override
@@ -69,15 +69,22 @@ public class ClientHandler implements Runnable, IObserver{
                 if (objectoRecibido.asunto.equals("Cliente")) {
                     System.out.println("llegaaa");
                     server.addObserver(this);
+                    dos.writeObject(new Paquete("setId",Integer.toString(id), Tipos.SUBASTA));
                     dos.writeObject(new Paquete("info",server.Observables));
                 }
 
                 if (objectoRecibido.asunto.equals("Asociarse")){
                     int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
-                    //Agregar cliente a subasta
 
-                    Paquete msg = new Paquete("AddSocio","prueba");
-                    server.notifyPrincipal(index,msg);
+                    if (objectoRecibido.tipo == Tipos.SUBASTA){
+                        Subasta subasta = (Subasta) server.Observables.get(index);
+                        subasta.addObserver(server.observers.get(objectoRecibido.source));
+                        //Agregar cliente a subasta
+
+                        Paquete msg = new Paquete("AddSocio",objectoRecibido.informacion, Tipos.SUBASTA);
+                        server.notifyPrincipal(index,msg);
+                    }
+
                     //dos.writeObject(new Paquete("listo",server.Observables));
 
                 }
