@@ -3,9 +3,7 @@ package Subasta;
 import API.Paquete;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -15,22 +13,24 @@ public class ClienteS {
 
     public static void main(String[] args) throws IOException {
         System.out.printf("NICKNAME:");
-        Scanner userInput = new Scanner(System.in);
+        BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+        String nickname = br.readLine();
+
+        Oferente oferente = new Oferente(nickname);
+
         // getting localhost ip
         InetAddress ip = null;
         try {
-            Oferente oferente = new Oferente("DEFAULT");
 
             ip = InetAddress.getByName("localhost");
             // establish the connection
             Socket s = new Socket(ip, 1234);
 
             // obtaining input and out streams
-
             ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream dis = new ObjectInputStream(s.getInputStream());
 
-            ReadMessage readMessage = new ReadMessage(null,dis,dos);
+            ReadMessage readMessage = new ReadMessage(oferente,dis,dos);
             readMessage.start();
 
             Paquete paqueteEnviado = new Paquete("Cliente",null);

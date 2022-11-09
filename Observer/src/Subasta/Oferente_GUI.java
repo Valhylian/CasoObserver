@@ -69,6 +69,13 @@ public class Oferente_GUI {
 
         btn_asociar = new JButton("ASOCIAR");
         btn_asociar.setBounds(21, 60, 150,30);
+        btn_asociar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //ENVIAR ASOCIARSE A X SUBASTA
+            }
+        } );
+
+
         frame.getContentPane().add(btn_asociar);
 
         comboBoxAsociadas = new JComboBox();
@@ -90,5 +97,4 @@ public class Oferente_GUI {
         frame.getContentPane().repaint();
     }
 }
-
 

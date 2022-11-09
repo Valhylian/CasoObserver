@@ -20,7 +20,7 @@ public class ReadMessage extends Thread {
         this.oferente = oferente;
         this.dis = dis;
         this.dos = dos;
-
+        this.oferente = oferente;
     }
 
     @Override
