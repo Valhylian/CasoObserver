@@ -56,8 +56,8 @@ public class Subastador extends JDialog {
                     String nickname = txt_Nick.getText();
                     int price = (Integer) Sp_price.getValue();
 
-                    Producto producto1 = new Producto(producto,null);
-                    subasta  = new Subasta(nickname, price, price, producto1);
+                    //Producto producto1 = new Producto(producto,null);
+                    //subasta  = new Subasta(nickname, price, price, producto1);
                     Paquete nuevaSubasta = new Paquete("Principal",subasta);
 
                     dos.writeObject(nuevaSubasta);

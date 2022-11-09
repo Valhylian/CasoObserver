@@ -27,27 +27,11 @@ public class Subastador_GUI {
     private JButton btnCrearOferta;
     private JButton terminarSubasta;
     private static JLabel labelOfertasEntrantes = new JLabel("Ofertas entrantes");
-    public static ObjectOutputStream dos;
-    public static ObjectInputStream dis;
-    final static int ServerPort = 1234;
-    public  Subasta subasta = null;
+
+    public SubastadorS subastador;
 
 
-    public static void main(String[] args) throws IOException {
-        // getting localhost ip
-        InetAddress ip = InetAddress.getByName("localhost");
 
-        // establish the connection
-        Socket s = new Socket(ip, ServerPort);
-
-        // obtaining input and out streams
-        dos = new ObjectOutputStream(s.getOutputStream());
-        dis = new ObjectInputStream(s.getInputStream());
-        Subastador_GUI window = new Subastador_GUI(dis,dos);
-        window.init();
-
-
-    }
 
     public void init() {
         EventQueue.invokeLater(new Runnable() {
@@ -62,7 +46,7 @@ public class Subastador_GUI {
         });
     }
 
-    public Subastador_GUI(ObjectInputStream dis, ObjectOutputStream dos) {
+    public Subastador_GUI(ObjectInputStream dis, ObjectOutputStream dos, SubastadorS subastador) {
         initialize(dis, dos);
 
         btnCrearOferta.addActionListener(new ActionListener() {
@@ -70,13 +54,13 @@ public class Subastador_GUI {
             public void actionPerformed(ActionEvent e) {
                 //MANDE UN MENSAJE DICIENDO LISTO
                 try {
-                    String producto = textFieldNombreSubasta.getText();
-                    String nickname = textFieldDescripcionSubasta.getText();
+                    String descripcionProducto = textFieldDescripcionSubasta.getText();
+                    String nombreProducto = textFieldNombreSubasta.getText();
                     int price = (Integer) spinnerPrecioSubasta.getValue();
 
-                    Producto producto1 = new Producto(producto,null);
-                    subasta  = new Subasta(nickname, price, price, producto1);
-                    Paquete nuevaSubasta = new Paquete("Principal",subasta);
+                    Producto producto1 = new Producto(nombreProducto,descripcionProducto,null);
+                    subastador.subasta  = new Subasta(nombreProducto, price, price, producto1);
+                    Paquete nuevaSubasta = new Paquete("Principal",subastador.subasta);
 
                     dos.writeObject(nuevaSubasta);
 

@@ -1,5 +1,10 @@
 package API;
 
+import javax.xml.crypto.Data;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public abstract class AbstractObservable implements IObservable{
@@ -28,6 +33,13 @@ public abstract class AbstractObservable implements IObservable{
         for (IObserver observer : principales) {
             observer.notifyObserver(command, source);
         }
+    }
+
+    public void notifyPrincipal(int index, Paquete paquete) throws IOException {
+        IObserver principal = principales.get(index);
+        Socket s = principal.returnSocket();
+        ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
+        dos.writeObject(paquete);
     }
 
     @Override

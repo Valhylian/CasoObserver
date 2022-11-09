@@ -21,6 +21,10 @@ public class ClientHandler implements Runnable, IObserver{
     public void notifyObserver(String command, Object source) {
 
     }
+    @Override
+    public Socket returnSocket (){
+        return client;
+    }
 
     public ClientHandler(Socket client, ObjectInputStream dis, ObjectOutputStream dos, int id) throws IOException {
         this.client = client;
@@ -52,11 +56,26 @@ public class ClientHandler implements Runnable, IObserver{
 
                 if (objectoRecibido.asunto.equals("Principal")) {
                     server.addPaquete(objectoRecibido.contenido);
+                    //obtener referencia del principal
+                    server.addPrincipal(this);
                 }
 
                 if (objectoRecibido.asunto.equals("Cliente")) {
                     System.out.println("llegaaa");
                     dos.writeObject(new Paquete("info",server.Observables));
+                }
+
+                if (objectoRecibido.asunto.equals("Asociarse")){
+                    int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
+                    //Agregar cliente a subasta
+
+                    Paquete msg = new Paquete("AddSocio","prueba");
+                    server.notifyPrincipal(index,msg);
+
+                }
+
+                if (objectoRecibido.asunto.equals("AddSocio")){
+                    System.out.println("siuuuuuu ");
                 }
 
             } catch (IOException e) {

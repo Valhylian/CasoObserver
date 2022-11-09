@@ -5,7 +5,7 @@ import API.AbstractObservable;
 import java.io.Serializable;
 
 public class Subasta extends AbstractObservable implements Serializable {
-    String name;
+    public String name;
     int lastOfert;
     int inicio;
     Producto producto;

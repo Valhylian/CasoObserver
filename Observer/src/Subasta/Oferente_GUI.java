@@ -1,5 +1,8 @@
 package Subasta;
 
+import API.Paquete;
+import API.Tipos;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +22,7 @@ public class Oferente_GUI {
     private JTextArea consola;
     private JSpinner sp_oferta;
     private static JPanel panel_1 = new JPanel();
+
 
     private static JLabel titulo = new JLabel("Jugador...");
     JTextArea txtrTurnoDelJugador = new JTextArea();
@@ -46,11 +50,25 @@ public class Oferente_GUI {
     /**
      * Create the application.
      */
-    public Oferente_GUI(ObjectInputStream dis, ObjectOutputStream dos) {
-        initialize(dis, dos);
+    public Oferente_GUI(ObjectInputStream dis, ObjectOutputStream dos,  Oferente oferente) {
+        initialize();
+        btn_asociar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //ENVIAR ASOCIARSE A X SUBASTA
+                try {
+                    String nombreSubasta = (String) comboBox.getSelectedItem();
+                    Paquete msg = new Paquete("Asociarse",nombreSubasta, Tipos.SUBASTA);
+                    dos.writeObject(msg);
+
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        } );
     }
 
-    private void initialize(ObjectInputStream dis, ObjectOutputStream dos) {
+    private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 813, 727);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,14 +90,9 @@ public class Oferente_GUI {
 
         btn_asociar = new JButton("ASOCIAR");
         btn_asociar.setBounds(21, 60, 150,30);
-        btn_asociar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //ENVIAR ASOCIARSE A X SUBASTA
-            }
-        } );
-
-
         frame.getContentPane().add(btn_asociar);
+
+
 
         comboBoxAsociadas = new JComboBox();
         comboBoxAsociadas.setBounds(500,200,252,30);

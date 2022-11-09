@@ -42,11 +42,12 @@ public class ClienteSubasta_GUI extends JDialog {
                 // getting localhost ip
                 InetAddress ip = null;
                 try {
-                    oferente = new Oferente(text_nick.getText());
+
 
                     ip = InetAddress.getByName("localhost");
                     // establish the connection
                     Socket s = new Socket(ip, ServerPort);
+                    oferente = new Oferente(text_nick.getText());
 
                     // obtaining input and out streams
 

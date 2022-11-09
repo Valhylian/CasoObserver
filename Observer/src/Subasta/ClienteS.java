@@ -16,7 +16,7 @@ public class ClienteS {
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
         String nickname = br.readLine();
 
-        Oferente oferente = new Oferente(nickname);
+
 
         // getting localhost ip
         InetAddress ip = null;
@@ -25,7 +25,7 @@ public class ClienteS {
             ip = InetAddress.getByName("localhost");
             // establish the connection
             Socket s = new Socket(ip, 1234);
-
+            Oferente oferente = new Oferente(nickname);
             // obtaining input and out streams
             ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream dis = new ObjectInputStream(s.getInputStream());

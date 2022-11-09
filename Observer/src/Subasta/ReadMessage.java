@@ -20,12 +20,11 @@ public class ReadMessage extends Thread {
         this.oferente = oferente;
         this.dis = dis;
         this.dos = dos;
-        this.oferente = oferente;
     }
 
     @Override
     public void run() {
-        clientePantalla = new Oferente_GUI(dis,dos);
+        clientePantalla = new Oferente_GUI(dis,dos,oferente);
         clientePantalla.init();
         while (true) {
 
@@ -33,7 +32,6 @@ public class ReadMessage extends Thread {
                 Paquete paquete = (Paquete) dis.readObject();
 
                 if (paquete.asunto.equals("info")) {
-
 
                     clientePantalla.actInterfaz((ArrayList<Object>) paquete.contenido);
                 }
