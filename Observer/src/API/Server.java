@@ -1,6 +1,7 @@
 package API;
 
 import API.ClientHandler;
+import RedSocial.CelebridadS;
 import Subasta.Subasta;
 
 import java.io.*;
@@ -74,8 +75,8 @@ public class Server extends AbstractObservable{
         }
         else if(tipo == Tipos.CELEBRIDAD){
             for(int i=0; i<Observables.size(); i++) {
-                Subasta subasta = (Subasta) Observables.get(i);
-                if (subasta.name.equals(nombre)){
+                CelebridadS celebridad = (CelebridadS) Observables.get(i);
+                if (celebridad.name.equals(nombre)){
                     return i;
                 }
             }

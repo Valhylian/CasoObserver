@@ -49,6 +49,7 @@ public abstract class AbstractObservable implements IObservable{
     @Override
     public void notifyAllObservers(Paquete paquete) throws IOException {
         for (ClientHandler observer : observers) {
+            //podriamos borrar maybe?
             Paquete paquete1 = new Paquete(paquete.asunto, paquete.contenido);
             observer.notifyObserver(paquete1);
         }

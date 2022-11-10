@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
 
 public class SeguidorS {
     public String nombre;
+    public int id;
     SeguidorS(String name){
         this.nombre = name;
     }

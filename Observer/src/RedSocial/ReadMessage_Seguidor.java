@@ -30,16 +30,6 @@ public class ReadMessage_Seguidor extends Thread {
             try {
                 Paquete paquete = (Paquete) dis.readObject();
                 if (paquete.asunto.equals("Aceptado")) {
-                    System.out.println("Fuiste aceptado en la red social chaval!");
-                }
-
-                if (paquete.asunto.equals("info")) {
-
-                    clientePantalla.actInterfaz((ArrayList<Object>) paquete.contenido);
-                }
-                if (paquete.asunto.equals("postNuevo")) {
-
-                    System.out.println(paquete.contenido);
                 }
 
 

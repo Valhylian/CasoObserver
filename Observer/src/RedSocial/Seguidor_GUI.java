@@ -37,7 +37,6 @@ public class Seguidor_GUI {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -51,11 +50,11 @@ public class Seguidor_GUI {
         initialize();
         btn_asociar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //ENVIAR ASOCIARSE A X SUBASTA
+                //ENVIAR ASOCIARSE A CELEBRIDAD
                 try {
-                    String nombreSubasta = (String) comboBoxCelebridades.getSelectedItem();
-                    //Paquete msg = new Paquete("Asociarse",nombreSubasta, Tipos.SUBASTA, oferente.id,oferente.nickname);
-                    dos.writeObject(null);
+                    String nombreCelebridad = (String) comboBoxCelebridades.getSelectedItem();
+                    Paquete msg = new Paquete("FollowRequest",nombreCelebridad, Tipos.CELEBRIDAD,seguidor.id,seguidor.nombre);
+                    dos.writeObject(msg);
 
 
                 } catch (IOException e1) {
@@ -103,7 +102,7 @@ public class Seguidor_GUI {
         btn_ofetar.setBounds(500, 290, 150,30);
         frame.getContentPane().add(btn_ofetar);
 
-        btn_asociar = new JButton("ASOCIAR");
+        btn_asociar = new JButton("Follow");
         btn_asociar.setBounds(21, 60, 150,30);
         frame.getContentPane().add(btn_asociar);
 
