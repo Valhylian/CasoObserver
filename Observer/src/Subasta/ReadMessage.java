@@ -29,15 +29,19 @@ public class ReadMessage extends Thread {
         while (true) {
 
             try {
+
                 Paquete paquete = (Paquete) dis.readObject();
                 if (paquete.asunto.equals("setId")) {
                     oferente.id = Integer.parseInt(paquete.informacion) ;
                 }
 
                 if (paquete.asunto.equals("info")) {
-
+                    
                     clientePantalla.actInterfaz((ArrayList<Object>) paquete.contenido);
+                    oferente.generales = (ArrayList<Subasta>) paquete.contenido;
                 }
+
+
 
                 if (paquete.asunto.equals("info_subasta")) {
                     Subasta subasta = (Subasta) paquete.contenido;

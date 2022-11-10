@@ -19,7 +19,9 @@ public class Oferente_GUI {
     private JComboBox comboBoxAsociadas;
     private JButton btn_ofetar;
     private JButton btn_asociar;
+    private JButton btn_informacion;
     private JTextArea consola;
+    private JTextArea infoSubasta;
     private JSpinner sp_oferta;
     private static JPanel panel_1 = new JPanel();
 
@@ -97,36 +99,47 @@ public class Oferente_GUI {
         scroll.setBounds(21,100,300,300);
         frame.getContentPane().add(scroll);
 
+        infoSubasta  = new JTextArea();
+        JScrollPane scroll2 = new JScrollPane (infoSubasta,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll2.setBounds(400,100,300,300);
+        frame.getContentPane().add(scroll2);
 
         comboBox = new JComboBox();
         comboBox.setBounds(21,20,252,30);
         frame.getContentPane().add(comboBox);
 
-        btn_ofetar = new JButton("OFERTAR");
-        btn_ofetar.setBounds(500, 290, 150,30);
-        frame.getContentPane().add(btn_ofetar);
+
 
         btn_asociar = new JButton("ASOCIAR");
         btn_asociar.setBounds(21, 60, 150,30);
         frame.getContentPane().add(btn_asociar);
 
+        btn_informacion = new JButton("INFORMACION");
+        btn_informacion.setBounds(171, 60, 150,30);
+        frame.getContentPane().add(btn_informacion);
 
 
         comboBoxAsociadas = new JComboBox();
-        comboBoxAsociadas.setBounds(500,200,252,30);
+        comboBoxAsociadas.setBounds(21,430,252,30);
         frame.getContentPane().add(comboBoxAsociadas);
 
         sp_oferta = new JSpinner();
-        sp_oferta.setBounds(500,250,252,30);
+        sp_oferta.setBounds(21,470,252,30);
         frame.getContentPane().add(sp_oferta);
+
+        btn_ofetar = new JButton("OFERTAR");
+        btn_ofetar.setBounds(21, 510, 150,30);
+        frame.getContentPane().add(btn_ofetar);
 
     }
 
     public void actInterfaz(ArrayList<Object> info){
-   
+        comboBox.removeAllItems();
         for (Object subasta: info){
             Subasta subastaAux = (Subasta) subasta;
+            System.out.printf(subastaAux.name);
             comboBox.addItem(subastaAux.name);
+
         }
         frame.getContentPane().repaint();
     }

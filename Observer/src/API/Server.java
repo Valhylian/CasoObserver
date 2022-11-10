@@ -57,7 +57,7 @@ public class Server extends AbstractObservable{
 
             System.out.println("Adding this client to active client list");
             // add this client to active clients list
-            server.addObserver(mtch);
+            //server.addObserver(mtch);
             // start the thread.
             t.start();
         }

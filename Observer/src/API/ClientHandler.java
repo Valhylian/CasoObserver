@@ -18,9 +18,11 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
     public Server server;
 
     @Override
-    public void notifyObserver(Paquete paquete) {
-
+    public void notifyObserver(Paquete paquete) throws IOException {
+        dos.reset();
+        dos.writeObject(paquete);
     }
+
     @Override
     public Socket returnSocket (){
         return client;
@@ -64,8 +66,9 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                     server.addPaquete(objectoRecibido.contenido);
                     //obtener referencia del principal
                     server.addPrincipal(this);
-                    dos.writeObject(new Paquete("listo",server.Observables));
+                    //dos.writeObject(new Paquete("listo",server.Observables));
                     //notificar nueva subasta a todos
+                    server.notifyAllObservers(new Paquete("info",server.Observables));
                 }
 
                 if (objectoRecibido.asunto.equals("Cliente")) {

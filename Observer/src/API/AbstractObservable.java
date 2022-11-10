@@ -1,5 +1,7 @@
 package API;
 
+import Subasta.Subasta;
+
 import javax.xml.crypto.Data;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -29,7 +31,7 @@ public abstract class AbstractObservable implements IObservable{
     }
 
     @Override
-    public void notifyPrincipals(String command, Object source) {
+    public void notifyPrincipals(String command, Object source) throws IOException {
         for (ClientHandler observer : principales) {
             observer.notifyObserver(null);
         }
@@ -43,14 +45,14 @@ public abstract class AbstractObservable implements IObservable{
 
     public void notifyObserver_Index(int index, Paquete paquete) throws IOException {
         ClientHandler cliente = observers.get(index);
-        cliente.dos.writeObject(paquete);
-
+        cliente.notifyObserver(paquete);
     }
 
     @Override
-    public void notifyAllObservers(String command, Object source) {
+    public void notifyAllObservers(Paquete paquete) throws IOException {
         for (ClientHandler observer : observers) {
-            observer.notifyObserver(null);
+            Paquete paquete1 = new Paquete(paquete.asunto, paquete.contenido);
+            observer.notifyObserver(paquete1);
         }
 
     }

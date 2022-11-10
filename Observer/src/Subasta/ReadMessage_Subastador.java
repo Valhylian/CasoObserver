@@ -32,24 +32,20 @@ public class ReadMessage_Subastador extends Thread{
 
                 Paquete paquete = (Paquete) dis.readObject();
 
-                if (paquete.asunto.equals("listo")) {
-                    System.out.println("Vale craaack2");
-                }
-
                 if (paquete.asunto.equals("Asociarse")) {
                     System.out.println("Vale craaack");
-
                 }
+
                 if (paquete.asunto.equals("AddSocio")){
                     window.meterseLinea("Se unio el cliente: "+paquete.informacion);
-
                 }
 
                 if (paquete.asunto.equals("push_subasta")){
                     //add oferta
-
-                    window.meterseLinea("Cliente: "+paquete.sourceAux+ "pushea: "+paquete.precioPush);
-
+                    Oferta oferta = new Oferta(subastador.subasta.ofertas.size(),paquete.sourceAux,paquete.source,paquete.precioPush);
+                    subastador.subasta.ofertas.add(oferta);
+                    String info = "Oferta: "+oferta.indexOferta+" Cliente: "+oferta.name_ofertante + " Puja: "+oferta.dineroOfertado;
+                    window.meterseLinea(info);
                 }
 
             } catch (IOException e) {
