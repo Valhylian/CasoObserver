@@ -17,4 +17,9 @@ public class Post extends AbstractObservable implements Serializable {
         //this.likes = _likes;
 
     }
+
+    @Override
+    public void notifyAllObservers(String command, Object source) {
+
+    }
 }

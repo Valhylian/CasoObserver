@@ -39,9 +39,22 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Application.CelebridadS">
+  <component name="RunManager" selected="Application.SeguidorS">
     <configuration name="CelebridadS" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="RedSocial.CelebridadS" />
+      <module name="CasoObserver" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RedSocial.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SeguidorS" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="RedSocial.SeguidorS" />
       <module name="CasoObserver" />
       <extension name="coverage">
         <pattern>
@@ -59,19 +72,6 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="API.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Subastador" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Subasta.Subastador" />
-      <module name="CasoObserver" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Subasta.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -107,11 +107,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.SeguidorS" />
         <item itemvalue="Application.CelebridadS" />
         <item itemvalue="Application.Server" />
         <item itemvalue="Application.SubastadorS" />
         <item itemvalue="Application.Subastador_GUI" />
-        <item itemvalue="Application.Subastador" />
       </list>
     </recent_temporary>
   </component>

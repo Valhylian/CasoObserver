@@ -5,8 +5,6 @@ import Subasta.Subasta;
 import javax.xml.crypto.Data;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 public abstract class AbstractObservable implements IObservable{

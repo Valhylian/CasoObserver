@@ -1,5 +1,6 @@
 package API;
 
+import RedSocial.CelebridadS;
 import Subasta.Subasta;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -105,10 +106,40 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                     }
                 }
 
+
+
+                //Se crea nueva celebridad (CelebridadS)
+                if (objectoRecibido.asunto.equals("NuevaCelebridad")) {
+                    server.addPaquete(objectoRecibido.contenido);
+
+                    //server.addPrincipal(this);
+                    dos.writeObject(new Paquete("listo",server.Observables));
+                    //notificar nueva celebridad a todos
+
+                    //actualizamos interfaz de clientes
+                }
+
                 //Celebridad hace un nuevo post (todavia no lo enviamos a sus followers)
                 if (objectoRecibido.asunto.equals("PostCelebridad")) {
-                    System.out.println("Nuevo post celebridad: "+objectoRecibido.informacion+"\n "+objectoRecibido.sourceAux);
-                    //
+                    String texto = "Nuevo post celebridad: "+objectoRecibido.informacion+"\n "+objectoRecibido.sourceAux;
+                    System.out.println(texto);
+                    int index = server.buscarObservable_nombre(objectoRecibido.informacion, Tipos.CELEBRIDAD);
+
+                    CelebridadS celebridad = (CelebridadS) server.Observables.get(index);
+                    Paquete paquete = new Paquete("postNuevo",texto);
+                    celebridad.notifyAllObservers(paquete,null);
+                    //dos.writeObject(new Paquete("push_aceptado",subasta));
+
+                }
+
+                //Nuevo usuario en la plataforma
+                if (objectoRecibido.asunto.equals("NuevoUsuario")) {
+
+                    System.out.println("Llega usuario!");
+                    dos.writeObject(new Paquete("Aceptado",null));
+
+                    dos.writeObject(new Paquete("info",server.Observables));
+
                 }
 
 
