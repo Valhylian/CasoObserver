@@ -84,9 +84,4 @@ public class Server extends AbstractObservable{
         return 0;
     }
 
-
-    @Override
-    public void notifyAllObservers(String command, Object source) {
-
-    }
 }

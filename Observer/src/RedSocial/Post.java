@@ -18,8 +18,5 @@ public class Post extends AbstractObservable implements Serializable {
 
     }
 
-    @Override
-    public void notifyAllObservers(String command, Object source) {
 
-    }
 }

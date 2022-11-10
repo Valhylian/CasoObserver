@@ -27,8 +27,4 @@ public class Subasta extends AbstractObservable implements Serializable {
         ofertas.add(oferta);
     }
 
-    @Override
-    public void notifyAllObservers(String command, Object source) {
-
-    }
 }

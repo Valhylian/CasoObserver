@@ -63,14 +63,5 @@ public class CelebridadS extends AbstractObservable implements Serializable {
 
     }
 
-    @Override
-    public void notifyAllObservers(String command, Object source) {
 
-    }
-    @Override
-    public void notifyAllObservers(Paquete paquete, Object source) throws IOException {
-        for (ClientHandler observer : observers) {
-            observer.notifyObserver(paquete);
-        }
-    }
 }

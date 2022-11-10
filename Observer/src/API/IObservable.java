@@ -9,5 +9,5 @@ public interface IObservable {
     public void notifyPrincipals(String command, Object source) throws IOException;
     public int addPrincipal(ClientHandler observer);
 
-    void notifyAllObservers(Paquete paquete, Object source) throws IOException;
+
 }

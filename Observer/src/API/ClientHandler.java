@@ -127,7 +127,7 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
 
                     CelebridadS celebridad = (CelebridadS) server.Observables.get(index);
                     Paquete paquete = new Paquete("postNuevo",texto);
-                    celebridad.notifyAllObservers(paquete,null);
+                    celebridad.notifyAllObservers(paquete);
                     //dos.writeObject(new Paquete("push_aceptado",subasta));
 
                 }
