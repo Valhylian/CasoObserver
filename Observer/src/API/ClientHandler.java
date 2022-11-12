@@ -24,10 +24,6 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
         dos.writeObject(paquete);
     }
 
-    @Override
-    public Socket returnSocket (){
-        return client;
-    }
 
     public ClientHandler(Socket client, ObjectInputStream dis, ObjectOutputStream dos, int id) throws IOException {
         this.client = client;
