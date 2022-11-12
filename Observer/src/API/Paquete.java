@@ -20,6 +20,27 @@ public class Paquete implements Serializable {
         this.informacion = null;
     }
 
+    public Paquete (String _asunto, String info){
+        this.asunto = _asunto;
+        this.informacion = info;
+    }
+
+    //PARA GANADORES
+    public Paquete (String _asunto, String info, String sourceAux, Object _contenido, Tipos tipo){
+        this.asunto = _asunto;
+        this.informacion = info;
+        this.contenido = _contenido;
+        this.tipo = tipo;
+        this.sourceAux = sourceAux;
+    }
+
+    public Paquete (String _asunto, String info, Object _contenido, Tipos tipo){
+        this.asunto = _asunto;
+        this.informacion = info;
+        this.contenido = _contenido;
+        this.tipo = tipo;
+    }
+
     public Paquete (String asunto, String info, Tipos tipo, int socket,String sourceAux){
         this.asunto=asunto;
         this.informacion = info;

@@ -8,8 +8,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class AbstractObservable implements IObservable{
-    public static ArrayList<ClientHandler> observers = new ArrayList<>();
-    public static ArrayList<ClientHandler> principales = new ArrayList<>();
+    public  ArrayList<ClientHandler> observers;
+    public  ArrayList<ClientHandler> principales;
+
+    public AbstractObservable (){
+        System.out.println("llega super");
+        this.observers = new ArrayList<ClientHandler>();
+        this.principales = new ArrayList<ClientHandler>();
+    }
 
     @Override
     public int addObserver(ClientHandler observer) {
@@ -42,16 +48,18 @@ public abstract class AbstractObservable implements IObservable{
     }
 
     public void notifyObserver_Index(int index, Paquete paquete) throws IOException {
-        ClientHandler cliente = observers.get(index);
+        ClientHandler cliente = this.observers.get(index);
         cliente.notifyObserver(paquete);
     }
 
     @Override
     public void notifyAllObservers(Paquete paquete) throws IOException {
-        for (ClientHandler observer : observers) {
+        System.out.println(this.observers.size());
+        for (ClientHandler observer : this.observers) {
             //podriamos borrar maybe?
-            Paquete paquete1 = new Paquete(paquete.asunto, paquete.contenido);
-            observer.notifyObserver(paquete1);
+            //Paquete paquete1 = new Paquete(paquete.asunto, paquete.contenido);
+
+            observer.notifyObserver(paquete);
         }
 
     }

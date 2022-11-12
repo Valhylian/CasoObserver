@@ -16,6 +16,7 @@ public class Server extends AbstractObservable{
     public ArrayList<Object> Observables = new ArrayList<>();
 
     private Server() throws IOException {
+        super();
         this.ss = new ServerSocket(PORT);
     }
 
@@ -52,7 +53,7 @@ public class Server extends AbstractObservable{
             System.out.println("Creating a new handler for this client...");
 
             // Create a new handler object for handling this request.
-            ClientHandler mtch = new ClientHandler(s,dis, dos, observers.size());
+            ClientHandler mtch = new ClientHandler(s,dis, dos, server.observers.size());
 
             Thread t = new Thread(mtch);
 

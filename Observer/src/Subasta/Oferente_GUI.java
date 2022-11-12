@@ -24,6 +24,7 @@ public class Oferente_GUI {
     private JTextArea infoSubasta;
     private JSpinner sp_oferta;
     private static JPanel panel_1 = new JPanel();
+    Oferente oferente;
 
 
     private static JLabel titulo = new JLabel("Jugador...");
@@ -53,6 +54,7 @@ public class Oferente_GUI {
      * Create the application.
      */
     public Oferente_GUI(ObjectInputStream dis, ObjectOutputStream dos,  Oferente oferente) {
+        this.oferente = oferente;
         initialize();
         btn_asociar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -67,6 +69,25 @@ public class Oferente_GUI {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
+            }
+        });
+
+        btn_informacion.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String subasta = (String) comboBox.getSelectedItem();
+                int index = getIndexSubasta (subasta);
+                if (index != -1){
+                    String info = "INFORMACION DE LA SUBASTA\n";
+                    Subasta aux = oferente.generales.get(index);
+                    info += "Nombre: "+aux.name;
+                    info += "\nProducto: "+aux.producto.name;
+                    info += "\nDescripcion: "+aux.producto.descripcion;
+                    info += "\nPrecio Inicial: "+aux.producto.precioInicial;
+                    info += "\nFinal Programado: "+aux.finalProgramado;
+                    info += "\nTope: "+aux.lastOfert;
+                    infoSubasta.setText(info);
+                }
+
             }
         });
 
@@ -94,13 +115,13 @@ public class Oferente_GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        consola  = new JTextArea();
-        JScrollPane scroll = new JScrollPane (consola,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        infoSubasta  = new JTextArea();
+        JScrollPane scroll = new JScrollPane (infoSubasta,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll.setBounds(21,100,300,300);
         frame.getContentPane().add(scroll);
 
-        infoSubasta  = new JTextArea();
-        JScrollPane scroll2 = new JScrollPane (infoSubasta,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        consola  = new JTextArea();
+        JScrollPane scroll2 = new JScrollPane (consola,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll2.setBounds(400,100,300,300);
         frame.getContentPane().add(scroll2);
 
@@ -134,14 +155,22 @@ public class Oferente_GUI {
     }
 
     public void actInterfaz(ArrayList<Object> info){
+        actualizarGenerales(info);
         comboBox.removeAllItems();
         for (Object subasta: info){
             Subasta subastaAux = (Subasta) subasta;
-            System.out.printf(subastaAux.name);
+            oferente.generales.add(subastaAux);
             comboBox.addItem(subastaAux.name);
-
         }
         frame.getContentPane().repaint();
+    }
+
+    public void actualizarGenerales (ArrayList<Object> info){
+        oferente.generales = new ArrayList<>();
+        for (Object subasta: info){
+            Subasta subastaAux = (Subasta) subasta;
+            oferente.generales.add(subastaAux);
+        }
     }
 
 
@@ -156,6 +185,16 @@ public class Oferente_GUI {
 
         consola.append("\n"+info);
         frame.getContentPane().repaint();
+    }
+
+    public int getIndexSubasta (String name){
+        for(int i=0; i<oferente.generales.size(); i++) {
+            Subasta subasta = oferente.generales.get(i);
+            if (subasta.name.equals(name)){
+                return i;
+            }
+        };
+        return -1;
     }
 }
 

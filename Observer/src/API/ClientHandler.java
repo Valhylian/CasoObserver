@@ -85,7 +85,6 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                         Subasta subasta = (Subasta) server.Observables.get(index);
                         subasta.addObserver(server.observers.get(objectoRecibido.source));
                         //Agregar cliente a subasta
-
                         Paquete msg = new Paquete("AddSocio",objectoRecibido.sourceAux, Tipos.SUBASTA);
                         server.notifyPrincipal(index,msg);
                         dos.writeObject(new Paquete("info_subasta",subasta));
@@ -105,7 +104,39 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                         //dos.writeObject(new Paquete("push_aceptado",subasta));
                     }
                 }
+                else if (objectoRecibido.asunto.equals("actualizacion")) {
+                    System.out.println("llega aca?");
+                    System.out.printf(objectoRecibido.informacion);
+                    //ACTUALIZAR TODA LA SUBASTA MENOS LOS SUSCRITOS
+                    Subasta newSubasta = (Subasta) objectoRecibido.contenido;
+                    int index = server.buscarObservable_nombre(newSubasta.name, Tipos.SUBASTA);
+                    Subasta subastaSever = (Subasta) server.Observables.get(index);
+                    subastaSever.indexGanador = newSubasta.indexGanador;
+                    subastaSever.lastOfert = newSubasta.lastOfert;
+                    subastaSever.estado = newSubasta.estado;
+                    Paquete notificarOferta = new Paquete("notificacion",objectoRecibido.informacion);
+                    subastaSever.notifyAllObservers(notificarOferta);
+                    server.notifyAllObservers(new Paquete("info",server.Observables));
+                }
 
+                else if (objectoRecibido.asunto.equals("terminada")) {
+                    //ACTUALIZAR TODA LA SUBASTA MENOS LOS SUSCRITOS
+                    Subasta newSubasta = (Subasta) objectoRecibido.contenido;
+                    int index = server.buscarObservable_nombre(newSubasta.name, Tipos.SUBASTA);
+                    Subasta subastaSever = (Subasta) server.Observables.get(index);
+                    subastaSever.indexGanador = newSubasta.indexGanador;
+                    subastaSever.lastOfert = newSubasta.lastOfert;
+                    subastaSever.estado = newSubasta.estado;
+
+                    Paquete notificarOferta = new Paquete("notificacion",objectoRecibido.informacion);
+                    subastaSever.notifyAllObservers(notificarOferta);
+
+                    server.notifyAllObservers(new Paquete("info",server.Observables));
+
+                    String msg = subastaSever.name+" le informa: "+ objectoRecibido.sourceAux;
+                    int indexGanador = newSubasta.indexGanador;
+                    server.notifyObserver_Index(indexGanador,new Paquete("notificacion", msg));
+                }
 
 
                 //Se crea nueva celebridad (CelebridadS)

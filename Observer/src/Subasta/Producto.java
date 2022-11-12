@@ -8,12 +8,16 @@ public class  Producto implements Serializable {
     String name;
     String descripcion;
     Image imagen;
+    int precioInicial;
+    int precioFinal;
 
 
-    public Producto(String nombre, String descripcion, Image imagen){
+    public Producto(String nombre, String descripcion, Image imagen, int precioInicial, int precioFinal){
         this.imagen = imagen;
         this.descripcion = descripcion;
         this.name = nombre;
+        this.precioInicial = precioInicial;
+        this.precioFinal = precioFinal;
     }
 
 }
