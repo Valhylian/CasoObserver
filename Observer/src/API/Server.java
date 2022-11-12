@@ -51,16 +51,11 @@ public class Server extends AbstractObservable{
             ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
 
             System.out.println("Creating a new handler for this client...");
-
             // Create a new handler object for handling this request.
             ClientHandler mtch = new ClientHandler(s,dis, dos, server.observers.size());
 
             Thread t = new Thread(mtch);
 
-            System.out.println("Adding this client to active client list");
-            // add this client to active clients list
-            //server.addObserver(mtch);
-            // start the thread.
             t.start();
         }
     }

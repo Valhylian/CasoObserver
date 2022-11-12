@@ -13,8 +13,6 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
     private Socket client;
     final ObjectInputStream dis;
     final ObjectOutputStream dos;
-    //Esto no debería ser un IObservable?
-    public IObserver observable;
     public int id;
     public Server server;
 
