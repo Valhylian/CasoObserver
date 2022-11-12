@@ -68,6 +68,9 @@ public class Subastador_GUI {
                     Paquete nuevaSubasta = new Paquete("Principal", subastador.subasta);
 
                     dos.writeObject(nuevaSubasta);
+                    btnCancelar.setEnabled(true);
+                    btnAceptarOferta.setEnabled(true);
+                    terminarSubasta.setEnabled(true);
 
                     btnCrearOferta.setEnabled(false);
                 } catch (IOException e1) {
@@ -103,6 +106,7 @@ public class Subastador_GUI {
                             Paquete actualizacion = new Paquete("actualizacion", notificacion, prueba, Tipos.SUBASTA);
                             dos.reset();
                             dos.writeObject(actualizacion);
+
                         }
                     }
                 } catch (IOException e1) {
@@ -116,6 +120,7 @@ public class Subastador_GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //FINALIZAR SUBASTA
+
                 try {
                     String msgFelicitacion = textFieldMensaje.getText();
                     int ganador = subastador.subasta.indexGanador;
@@ -129,8 +134,14 @@ public class Subastador_GUI {
                         Paquete msgAct = new Paquete("terminada", notificacion,msgFelicidades,actSub, Tipos.SUBASTA);
                         dos.reset();
                         dos.writeObject(msgAct);
+
+                        JOptionPane.showMessageDialog(null, "Finalizada", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+                        btnAceptarOferta.setEnabled(false);
+                        btnCancelar.setEnabled(false);
+                        terminarSubasta.setEnabled(false);
+
                     }else{
-                        System.out.println("NO OFERTARON");
+                        JOptionPane.showMessageDialog(null, "No se han hecho ofertas, si desea finalizar seleccione cancelar", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -152,6 +163,11 @@ public class Subastador_GUI {
                     Paquete msgAct = new Paquete("actualizacion", notificacion,actSub, Tipos.SUBASTA);
                     dos.reset();
                     dos.writeObject(msgAct);
+
+                    JOptionPane.showMessageDialog(null, "Cancelada", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+                    btnAceptarOferta.setEnabled(false);
+                    btnCancelar.setEnabled(false);
+                    terminarSubasta.setEnabled(false);
 
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -210,6 +226,7 @@ public class Subastador_GUI {
 
         btnAceptarOferta = new JButton("Aceptar Oferta");
         btnAceptarOferta.setBounds(30, 550, 150, 30);
+        btnAceptarOferta.setEnabled(false);
         frame.getContentPane().add(btnAceptarOferta);
 
         textFieldMensaje = new JTextField("Felicidades broo");
@@ -218,10 +235,12 @@ public class Subastador_GUI {
 
         terminarSubasta = new JButton("Finalizar subasta");
         terminarSubasta.setBounds(200, 580, 150, 30);
+        terminarSubasta.setEnabled(false);
         frame.getContentPane().add(terminarSubasta);
 
         btnCancelar = new JButton("Cancelar subasta");
         btnCancelar.setBounds(30, 580, 150, 30);
+        btnCancelar.setEnabled(false);
         frame.getContentPane().add(btnCancelar);
     }
 
