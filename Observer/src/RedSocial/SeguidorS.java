@@ -9,11 +9,15 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 
 public class SeguidorS {
     public String nombre;
     public int id;
+    public ArrayList<CelebridadS> generales = new ArrayList<>();
+    public ArrayList<CelebridadS> subscritas = new ArrayList<>();
+
     SeguidorS(String name){
         this.nombre = name;
     }

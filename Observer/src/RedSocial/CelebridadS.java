@@ -3,6 +3,7 @@ package RedSocial;
 import API.AbstractObservable;
 import API.ClientHandler;
 import API.Paquete;
+import Subasta.Estado;
 
 
 import javax.swing.*;
@@ -19,10 +20,12 @@ public class CelebridadS extends AbstractObservable implements Serializable {
     //public Subasta subasta = null;
     public String name;
     public int nivel;
+    public Estado estado;
 
     public CelebridadS(String name,int nivel) {
         this.name = name;
         this.nivel = nivel;
+        this.estado = Estado.DEFAULT;
 
 
     }

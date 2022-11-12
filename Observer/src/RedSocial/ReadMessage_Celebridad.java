@@ -40,13 +40,13 @@ public class ReadMessage_Celebridad extends Thread{
 
                 }
 
-                if (paquete.asunto.equals("Asociarse")) {
+                else if (paquete.asunto.equals("Asociarse")) {
                     System.out.println("Vale craaack");
 
                 }
                 if (paquete.asunto.equals("AddSocio")){
+                    System.out.println("LLEGA ADD SOCIOOOO");
                     window.meterseLinea("Se unio el cliente: "+paquete.informacion);
-
                 }
 
                 if (paquete.asunto.equals("push_subasta")){

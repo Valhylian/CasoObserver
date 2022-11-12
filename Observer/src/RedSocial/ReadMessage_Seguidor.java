@@ -29,7 +29,14 @@ public class ReadMessage_Seguidor extends Thread {
 
             try {
                 Paquete paquete = (Paquete) dis.readObject();
-                if (paquete.asunto.equals("Aceptado")) {
+
+                if (paquete.asunto.equals("setId")) {
+                    seguidor.id = Integer.parseInt(paquete.informacion) ;
+                }
+
+                else if (paquete.asunto.equals("info")) {
+                    clientePantalla.actInterfaz((ArrayList<Object>) paquete.contenido);
+                    seguidor.generales = (ArrayList<CelebridadS>) paquete.contenido;
                 }
 
 

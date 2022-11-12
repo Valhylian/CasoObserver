@@ -2,7 +2,7 @@ package RedSocial;
 
 import API.Paquete;
 import API.Tipos;
-import Subasta.Oferente;
+import Subasta.Estado;
 import Subasta.Subasta;
 
 import javax.swing.*;
@@ -23,6 +23,7 @@ public class Seguidor_GUI {
     private JButton btn_ofetar;
     private JButton btn_asociar;
     private JTextArea consola;
+    SeguidorS seguidor;
 
     private static JPanel panel_1 = new JPanel();
     private static JLabel titulo = new JLabel("Jugador...");
@@ -47,12 +48,19 @@ public class Seguidor_GUI {
 
 
     public Seguidor_GUI(ObjectInputStream dis, ObjectOutputStream dos, SeguidorS seguidor) {
+        this.seguidor = seguidor;
         initialize();
         btn_asociar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //ENVIAR ASOCIARSE A CELEBRIDAD
+                String nombreCelebridad = (String) comboBoxCelebridades.getSelectedItem();
+                for (CelebridadS celebridad : seguidor.subscritas) {
+                    if (celebridad.name.equals(nombreCelebridad)) {
+                        JOptionPane.showMessageDialog(null, "Ya está subscrito a esa celebridad", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                }
                 try {
-                    String nombreCelebridad = (String) comboBoxCelebridades.getSelectedItem();
                     Paquete msg = new Paquete("FollowRequest",nombreCelebridad, Tipos.CELEBRIDAD,seguidor.id,seguidor.nombre);
                     dos.writeObject(msg);
 
@@ -117,15 +125,25 @@ public class Seguidor_GUI {
     }
 
     public void actInterfaz(ArrayList<Object> info){
-
+        actualizarGenerales(info);
+        comboBoxCelebridades.removeAllItems();
         for (Object celebridad: info){
             CelebridadS celebridadS = (CelebridadS) celebridad;
-            comboBoxCelebridades.addItem(celebridadS.name);
+            if (celebridadS.estado == Estado.DEFAULT) {
+                comboBoxCelebridades.addItem(celebridadS.name);
+            }
+
         }
         frame.getContentPane().repaint();
     }
 
-
+    public void actualizarGenerales(ArrayList<Object> info) {
+        seguidor.generales = new ArrayList<>();
+        for (Object celebridad : info) {
+            CelebridadS celebridadS = (CelebridadS) celebridad;
+            seguidor.generales.add(celebridadS);
+        }
+    }
 
     public void actSubscritas (Subasta info){
 

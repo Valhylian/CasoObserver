@@ -72,13 +72,10 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                 }
                 //Nos asociamos a una nueva subasta (Oferente_GUI)
                 if (objectoRecibido.asunto.equals("Asociarse")){
-                    System.out.printf("ASOCIARSE");
-                    System.out.println(objectoRecibido.informacion);
                     int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
 
                     if (objectoRecibido.tipo == Tipos.SUBASTA){
                         Subasta subasta = (Subasta) server.Observables.get(index);
-                        System.out.println("INDEX SOCIO: "+objectoRecibido.source + " "+objectoRecibido.sourceAux);
                         subasta.addObserver(server.observers.get(objectoRecibido.source));
                         //Agregar cliente a subasta
                         Paquete msg = new Paquete("AddSocio",objectoRecibido.sourceAux, Tipos.SUBASTA);
@@ -137,14 +134,12 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                 }
 
 
-                //Se crea nueva celebridad (CelebridadS)
                 if (objectoRecibido.asunto.equals("NuevaCelebridad")) {
                     server.addPaquete(objectoRecibido.contenido);
-
                     server.addPrincipal(this);
-                    dos.writeObject(new Paquete("listo",server.Observables));
+                   // dos.writeObject(new Paquete("listo",server.Observables));
                     //notificar nueva celebridad a todos
-
+                    server.notifyAllObservers(new Paquete("info",server.Observables));
                     //actualizamos interfaz de clientes
                 }
 
@@ -166,26 +161,22 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
 
                     System.out.println("Llega usuario!");
                     server.addObserver(this);
-                    dos.writeObject(new Paquete("Aceptado",null));
                     dos.writeObject(new Paquete("setId",Integer.toString(id), Tipos.CELEBRIDAD));
                     dos.writeObject(new Paquete("info",server.Observables));
 
                 }
 
                 // Seguimos a una Celebridad
-                if (objectoRecibido.asunto.equals("FollowRequest")){
+                else if (objectoRecibido.asunto.equals("FollowRequest")){
                     int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
 
                     if (objectoRecibido.tipo == Tipos.CELEBRIDAD){
                         CelebridadS celebridad = (CelebridadS) server.Observables.get(index);
-
                         //agrega a celebridad el clientHandler de seguidor buscando en observers a ese ID del SeguidorS
                         celebridad.addObserver(server.observers.get(objectoRecibido.source));
-
-
                         Paquete msg = new Paquete("AddSocio",objectoRecibido.sourceAux, Tipos.CELEBRIDAD);
                         server.notifyPrincipal(index,msg);
-                        //dos.writeObject(new Paquete("info_subasta",subasta));
+                        dos.writeObject(new Paquete("info_celebridad",celebridad));
                     }
 
                     //dos.writeObject(new Paquete("listo",server.Observables));

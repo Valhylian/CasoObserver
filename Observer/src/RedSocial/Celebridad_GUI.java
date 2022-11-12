@@ -70,7 +70,7 @@ public class Celebridad_GUI {
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 400, 400);
+        frame.setBounds(100, 100, 813, 727);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
@@ -78,7 +78,6 @@ public class Celebridad_GUI {
         nombreSubastaLabel.setBounds(20,30,80,30);
         nombreSubastaLabel.setText(celebridad.name);
         frame.getContentPane().add(nombreSubastaLabel);
-
 
         //Cantidad de seguidores
         descripicionSubastaLabel.setBounds(20,80,80,30);
@@ -88,10 +87,10 @@ public class Celebridad_GUI {
         writePost.setBounds(20,125,100,75);
         frame.getContentPane().add(writePost);
 
-        //consola  = new JTextArea();
-        //JScrollPane scroll = new JScrollPane (consola,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        //scroll.setBounds(21,200,300,300);
-        //frame.getContentPane().add(scroll);
+        consola  = new JTextArea();
+        JScrollPane scroll2 = new JScrollPane (consola,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll2.setBounds(150,50,300,300);
+        frame.getContentPane().add(scroll2);
 
 
 
@@ -110,7 +109,6 @@ public class Celebridad_GUI {
     }
 
     public void meterseLinea (String info){
-
         consola.append("\n"+info);
         frame.getContentPane().repaint();
     }

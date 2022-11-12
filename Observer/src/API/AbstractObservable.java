@@ -43,7 +43,6 @@ public abstract class AbstractObservable implements IObservable{
     public void notifyPrincipal(int index, Paquete paquete) throws IOException {
         ClientHandler principal = principales.get(index);
         principal.dos.writeObject(paquete);
-
     }
 
     public void notifyObserver_Index(int index, Paquete paquete) throws IOException {
@@ -53,7 +52,6 @@ public abstract class AbstractObservable implements IObservable{
 
     @Override
     public void notifyAllObservers(Paquete paquete) throws IOException {
-        System.out.println(this.observers.size());
         for (ClientHandler observer : this.observers) {
             observer.notifyObserver(paquete);
         }
