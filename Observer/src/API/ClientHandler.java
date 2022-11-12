@@ -50,7 +50,7 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
         while (true) {
             try {
                 // receive the string;
-                Paquete objectoRecibido = (Paquete) dis.readObject();
+                Paquete objectoRecibido = (Paquete) dis.readUnshared();
                 System.out.println(objectoRecibido);
 
                 if(objectoRecibido.asunto.equals("logout")){
@@ -58,7 +58,6 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                 }
                 //Llega un nuevo cliente (SubastadorS)
                 if(objectoRecibido.asunto.equals("Prueeeeba")){
-                    System.out.println("llega aca");
                     dos.writeObject(new Paquete("listo",server.Observables));
                 }
 
@@ -79,10 +78,13 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                 }
                 //Nos asociamos a una nueva subasta (Oferente_GUI)
                 if (objectoRecibido.asunto.equals("Asociarse")){
+                    System.out.printf("ASOCIARSE");
+                    System.out.println(objectoRecibido.informacion);
                     int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
 
                     if (objectoRecibido.tipo == Tipos.SUBASTA){
                         Subasta subasta = (Subasta) server.Observables.get(index);
+                        System.out.println("INDEX SOCIO: "+objectoRecibido.source + " "+objectoRecibido.sourceAux);
                         subasta.addObserver(server.observers.get(objectoRecibido.source));
                         //Agregar cliente a subasta
                         Paquete msg = new Paquete("AddSocio",objectoRecibido.sourceAux, Tipos.SUBASTA);
@@ -109,8 +111,10 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                     System.out.printf(objectoRecibido.informacion);
                     //ACTUALIZAR TODA LA SUBASTA MENOS LOS SUSCRITOS
                     Subasta newSubasta = (Subasta) objectoRecibido.contenido;
+                    System.out.println("nombre new: "+newSubasta.name);
                     int index = server.buscarObservable_nombre(newSubasta.name, Tipos.SUBASTA);
                     Subasta subastaSever = (Subasta) server.Observables.get(index);
+                    System.out.println("nombre: "+subastaSever.name);
                     subastaSever.indexGanador = newSubasta.indexGanador;
                     subastaSever.lastOfert = newSubasta.lastOfert;
                     subastaSever.estado = newSubasta.estado;

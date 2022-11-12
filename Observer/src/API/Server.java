@@ -66,10 +66,13 @@ public class Server extends AbstractObservable{
     }
 
     public int buscarObservable_nombre(String nombre, Tipos tipo){
+        System.out.println("llega el nombre "+nombre);
         if(tipo == Tipos.SUBASTA){
             for(int i=0; i<Observables.size(); i++) {
                 Subasta subasta = (Subasta) Observables.get(i);
-                if (subasta.name.equals(nombre)){
+                String name = subasta.name;
+                if (name.equals(nombre)){
+                    System.out.println("entra");
                     return i;
                 }
              }

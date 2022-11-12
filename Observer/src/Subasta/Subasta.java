@@ -29,7 +29,7 @@ public class Subasta extends AbstractObservable implements Serializable {
 
     public Subasta(String name, int lastOfert,Producto producto, int indexGanador, Estado estado){
         super();
-        this.name = "Subasta de: "+name;
+        this.name = name;
         this.lastOfert = lastOfert;
         this.inicio = producto.precioInicial;
         this.producto = producto;

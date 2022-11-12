@@ -159,8 +159,11 @@ public class Oferente_GUI {
         comboBox.removeAllItems();
         for (Object subasta: info){
             Subasta subastaAux = (Subasta) subasta;
-            oferente.generales.add(subastaAux);
-            comboBox.addItem(subastaAux.name);
+            //oferente.generales.add(subastaAux);
+            if (subastaAux.estado == Estado.DEFAULT){
+                comboBox.addItem(subastaAux.name);
+            }
+
         }
         frame.getContentPane().repaint();
     }
@@ -173,10 +176,7 @@ public class Oferente_GUI {
         }
     }
 
-
-
     public void actSubscritas (Subasta info){
-
         comboBoxAsociadas.addItem(info.name);
         frame.getContentPane().repaint();
     }

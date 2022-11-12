@@ -12,7 +12,6 @@ public abstract class AbstractObservable implements IObservable{
     public  ArrayList<ClientHandler> principales;
 
     public AbstractObservable (){
-        System.out.println("llega super");
         this.observers = new ArrayList<ClientHandler>();
         this.principales = new ArrayList<ClientHandler>();
     }
@@ -56,9 +55,6 @@ public abstract class AbstractObservable implements IObservable{
     public void notifyAllObservers(Paquete paquete) throws IOException {
         System.out.println(this.observers.size());
         for (ClientHandler observer : this.observers) {
-            //podriamos borrar maybe?
-            //Paquete paquete1 = new Paquete(paquete.asunto, paquete.contenido);
-
             observer.notifyObserver(paquete);
         }
 

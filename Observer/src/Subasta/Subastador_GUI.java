@@ -101,6 +101,7 @@ public class Subastador_GUI {
                             //actualizar Subasta en el server
                             Subasta prueba = new Subasta(subastador.subasta.name, oferta.dineroOfertado, subastador.subasta.producto, oferta.index_ofertante, Estado.DEFAULT);
                             Paquete actualizacion = new Paquete("actualizacion", notificacion, prueba, Tipos.SUBASTA);
+                            dos.reset();
                             dos.writeObject(actualizacion);
                         }
                     }
@@ -126,6 +127,7 @@ public class Subastador_GUI {
                         subastador.subasta.estado = Estado.TERMINADA;
                         Subasta actSub = new Subasta(subastador.subasta.name, subastador.subasta.lastOfert, subastador.subasta.producto, subastador.subasta.indexGanador, Estado.TERMINADA);
                         Paquete msgAct = new Paquete("terminada", notificacion,msgFelicidades,actSub, Tipos.SUBASTA);
+                        dos.reset();
                         dos.writeObject(msgAct);
                     }else{
                         System.out.println("NO OFERTARON");
@@ -144,8 +146,11 @@ public class Subastador_GUI {
                 try {
                     String notificacion = "--------------------\n" + subastador.subasta.name + " notifica: \nSUBASTA CANCELADA";
                     subastador.subasta.estado = Estado.CANCELADA;
-                    Subasta actSub = new Subasta(subastador.subasta.name, subastador.subasta.lastOfert, subastador.subasta.producto, subastador.subasta.indexGanador, Estado.CANCELADA);
+                    String name = subastador.subasta.name;
+                    int lastOfert = subastador.subasta.lastOfert;
+                    Subasta actSub = new Subasta(name, lastOfert, subastador.subasta.producto, subastador.subasta.indexGanador, Estado.CANCELADA);
                     Paquete msgAct = new Paquete("actualizacion", notificacion,actSub, Tipos.SUBASTA);
+                    dos.reset();
                     dos.writeObject(msgAct);
 
                 } catch (IOException e1) {
