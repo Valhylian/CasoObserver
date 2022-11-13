@@ -23,6 +23,7 @@ public class Seguidor_GUI {
     private JButton btn_ofetar;
     private JButton btn_asociar;
     private JTextArea consola;
+    private JSpinner spinnerNumero;
     SeguidorS seguidor;
 
     private static JPanel panel_1 = new JPanel();
@@ -74,13 +75,18 @@ public class Seguidor_GUI {
 
         btn_ofetar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //pujar a subasta
+                String nombreCelebridad = (String) comboBoxAsociadas.getSelectedItem();
+                for (CelebridadS celebridad : seguidor.generales) {
+                    if (celebridad.name.equals(nombreCelebridad) && celebridad.estado!=Estado.DEFAULT) {
+                        JOptionPane.showMessageDialog(null, "La celebridad ya se retiró", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                }
                 try {
-                    String nombreSubasta = (String) comboBoxAsociadas.getSelectedItem();
-                    //int precioPush = (Integer) sp_oferta.getValue();
-                    //Paquete msg = new Paquete("push_subasta",nombreSubasta,oferente.id,oferente.nickname,precioPush, API.Tipos.SUBASTA);
-                    dos.writeObject(null);
-
+                    int numPost = (Integer) spinnerNumero.getValue();
+                    Paquete msg = new Paquete("like",nombreCelebridad,seguidor.id,seguidor.nombre,numPost, Tipos.CELEBRIDAD);
+                    dos.writeObject(msg);
+                    JOptionPane.showMessageDialog(null, "Like!", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
 
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -106,7 +112,7 @@ public class Seguidor_GUI {
         comboBoxCelebridades.setBounds(21,20,252,30);
         frame.getContentPane().add(comboBoxCelebridades);
 
-        btn_ofetar = new JButton("OFERTAR");
+        btn_ofetar = new JButton("DAR LIKE");
         btn_ofetar.setBounds(500, 290, 150,30);
         frame.getContentPane().add(btn_ofetar);
 
@@ -114,11 +120,13 @@ public class Seguidor_GUI {
         btn_asociar.setBounds(21, 60, 150,30);
         frame.getContentPane().add(btn_asociar);
 
-
-
         comboBoxAsociadas = new JComboBox();
         comboBoxAsociadas.setBounds(500,200,252,30);
         frame.getContentPane().add(comboBoxAsociadas);
+
+        spinnerNumero = new JSpinner();
+        spinnerNumero.setBounds(500, 240, 120, 20);
+        frame.getContentPane().add(spinnerNumero);
 
 
 
@@ -145,7 +153,7 @@ public class Seguidor_GUI {
         }
     }
 
-    public void actSubscritas (Subasta info){
+    public void actSubscritas (CelebridadS info){
 
         comboBoxAsociadas.addItem(info.name);
         frame.getContentPane().repaint();

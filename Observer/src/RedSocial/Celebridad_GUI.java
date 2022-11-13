@@ -1,6 +1,8 @@
 package RedSocial;
 
 import API.Paquete;
+import API.Tipos;
+import Subasta.Estado;
 import Subasta.Producto;
 import Subasta.Subasta;
 import Subasta.SubastadorS;
@@ -18,7 +20,7 @@ import java.io.ObjectOutputStream;
 public class Celebridad_GUI {
     private JFrame frame;
     private static JLabel nombreSubastaLabel = new JLabel("Nombre:");
-    private static JLabel descripicionSubastaLabel = new JLabel("Seguidores:");
+    private static JLabel descripicionSubastaLabel = new JLabel("Seguidores: 0");
 
     private JTextField writePost = new JTextField();
     private JTextArea consola = new JTextArea();
@@ -46,26 +48,47 @@ public class Celebridad_GUI {
         btnPublicar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 try {
+                    //hace un nuevo post
                     String textoPost = writePost.getText();
                     String nombrePoster = celebridad.name;
+                    Post post = new Post(nombrePoster,textoPost,celebridad.postRealizados.size());
+                    celebridad.postRealizados.add(post);
+                    consola.append("\nPosteo #"+post.id+": "+post.texto);
 
-                    Post post = new Post(nombrePoster,textoPost);
-
-                    Paquete nuevoPost = new Paquete("PostCelebridad",post.posterName,post.texto);
+                    Paquete nuevoPost = new Paquete("PostCelebridad",post);
 
                     dos.writeObject(nuevoPost);
-
-
-                    btnPublicar.setEnabled(false);
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-
             }
         });
+
+        btnLogOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String notificacion = "--------------------\n" + celebridad.name + " notifica: \nME RETIRO DE LAS REDES :(";
+                    celebridad.estado = Estado.CANCELADA;
+                    String name = celebridad.name;
+
+                    Paquete msgAct = new Paquete("actualizacionCelebridad", notificacion,celebridad, Tipos.CELEBRIDAD);
+                    dos.reset();
+                    dos.writeObject(msgAct);
+
+                    JOptionPane.showMessageDialog(null, "ADIOOS!", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+                    btnLogOut.setEnabled(false);
+                    btnPublicar.setEnabled(false);
+
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void initialize() {
@@ -92,25 +115,20 @@ public class Celebridad_GUI {
         scroll2.setBounds(150,50,300,300);
         frame.getContentPane().add(scroll2);
 
-
-
-
         btnPublicar = new JButton("Publicar");
         btnPublicar.setText("Post");
         btnPublicar.setBounds(20, 300, 80,40);
         frame.getContentPane().add(btnPublicar);
 
-        // ocupo poder postear de nuevo apenas hice un post
-
-
-        //terminarSubasta = new JButton("Finalizar subasta");
-        //terminarSubasta.setBounds(200, 550, 150,30);
-        //frame.getContentPane().add(terminarSubasta);
+        btnLogOut = new JButton("Dar de baja");
+        btnLogOut.setBounds(20, 350, 150,40);
+        frame.getContentPane().add(btnLogOut);
     }
 
     public void meterseLinea (String info){
         consola.append("\n"+info);
         frame.getContentPane().repaint();
+        descripicionSubastaLabel.setText("Seguidores: "+celebridad.cantidadSubs);
     }
 
 }

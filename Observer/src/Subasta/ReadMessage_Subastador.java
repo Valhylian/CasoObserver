@@ -32,15 +32,11 @@ public class ReadMessage_Subastador extends Thread{
 
                 Paquete paquete = (Paquete) dis.readObject();
 
-                if (paquete.asunto.equals("Asociarse")) {
-                    System.out.println("Vale craaack");
-                }
-
                 if (paquete.asunto.equals("AddSocio")){
                     window.meterseLinea("Se unio el cliente: "+paquete.informacion);
                 }
 
-                if (paquete.asunto.equals("push_subasta")){
+                else if (paquete.asunto.equals("push_subasta")){
                     //add oferta
                     Oferta oferta = new Oferta(subastador.subasta.ofertas.size(),paquete.sourceAux,paquete.source,paquete.precioPush);
                     subastador.subasta.ofertas.add(oferta);

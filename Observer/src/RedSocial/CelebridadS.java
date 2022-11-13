@@ -11,6 +11,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 
 public class CelebridadS extends AbstractObservable implements Serializable {
@@ -21,13 +22,13 @@ public class CelebridadS extends AbstractObservable implements Serializable {
     public String name;
     public int nivel;
     public Estado estado;
+    public int cantidadSubs = 0;
+    public ArrayList<Post> postRealizados = new ArrayList<>();
 
     public CelebridadS(String name,int nivel) {
         this.name = name;
         this.nivel = nivel;
         this.estado = Estado.DEFAULT;
-
-
     }
 
     public static void main(String[] args) throws IOException {

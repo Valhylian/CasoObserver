@@ -1,6 +1,7 @@
 package API;
 
 import RedSocial.CelebridadS;
+import RedSocial.Post;
 import Subasta.Subasta;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -112,7 +113,20 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                     Paquete notificarOferta = new Paquete("notificacion",objectoRecibido.informacion);
                     subastaSever.notifyAllObservers(notificarOferta);
                     server.notifyAllObservers(new Paquete("info",server.Observables));
+
+                }else if (objectoRecibido.asunto.equals("actualizacionCelebridad")) {
+                    //ACTUALIZAR TODA LA SUBASTA MENOS LOS SUSCRITOS
+                    CelebridadS celebridadS = (CelebridadS) objectoRecibido.contenido;
+                    int index = server.buscarObservable_nombre(celebridadS.name, Tipos.CELEBRIDAD);
+
+                    CelebridadS celebridadServer = (CelebridadS) server.Observables.get(index);
+                    celebridadServer.estado = celebridadS.estado;
+
+                    Paquete notificarOferta = new Paquete("notificacion",objectoRecibido.informacion);
+                    celebridadServer.notifyAllObservers(notificarOferta);
+                    server.notifyAllObservers(new Paquete("info",server.Observables));
                 }
+
 
                 else if (objectoRecibido.asunto.equals("terminada")) {
                     //ACTUALIZAR TODA LA SUBASTA MENOS LOS SUSCRITOS
@@ -140,24 +154,18 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                    // dos.writeObject(new Paquete("listo",server.Observables));
                     //notificar nueva celebridad a todos
                     server.notifyAllObservers(new Paquete("info",server.Observables));
-                    //actualizamos interfaz de clientes
-                }
 
-                //Celebridad hace un nuevo post (todavia no lo enviamos a sus followers)
-                if (objectoRecibido.asunto.equals("PostCelebridad")) {
-                    String texto = "Nuevo post celebridad: "+objectoRecibido.informacion+"\n "+objectoRecibido.sourceAux;
-                    System.out.println(texto);
-                    int index = server.buscarObservable_nombre(objectoRecibido.informacion, Tipos.CELEBRIDAD);
 
+                }else if (objectoRecibido.asunto.equals("PostCelebridad")) {
+                    Post post = (Post) objectoRecibido.contenido;
+                    String texto = "---------------\nLa celebridad "+post.posterName + " notifica #"+post.id+" : " + post.texto;
+                    int index = server.buscarObservable_nombre(post.posterName, Tipos.CELEBRIDAD);
                     CelebridadS celebridad = (CelebridadS) server.Observables.get(index);
+
                     Paquete paquete = new Paquete("postNuevo",texto);
                     celebridad.notifyAllObservers(paquete);
                     //dos.writeObject(new Paquete("push_aceptado",subasta));
-
-                }
-
-                //Nuevo usuario en la plataforma
-                if (objectoRecibido.asunto.equals("NuevoUsuario")) {
+                }else if (objectoRecibido.asunto.equals("NuevoUsuario")) {
 
                     System.out.println("Llega usuario!");
                     server.addObserver(this);
@@ -179,9 +187,27 @@ public class ClientHandler implements Runnable, IObserver, Serializable{
                         dos.writeObject(new Paquete("info_celebridad",celebridad));
                     }
 
-                    //dos.writeObject(new Paquete("listo",server.Observables));
+                }else if (objectoRecibido.asunto.equals("like")){
+                    int index = server.buscarObservable_nombre(objectoRecibido.informacion, objectoRecibido.tipo);
+
+                    if (objectoRecibido.tipo == Tipos.CELEBRIDAD){
+                        CelebridadS celebridad = (CelebridadS) server.Observables.get(index);
+                        //agrega a celebridad el clientHandler de seguidor buscando en observers a ese ID del SeguidorS
+
+                        server.notifyPrincipal(index,objectoRecibido);
+                    }
+
+                }else if (objectoRecibido.asunto.equals("notificacion")){
+                    int index = server.buscarObservable_nombre(objectoRecibido.sourceAux, objectoRecibido.tipo);
+
+
+                    if (objectoRecibido.tipo == Tipos.CELEBRIDAD){
+                        CelebridadS celebridad =(CelebridadS) server.Observables.get(index);
+                        celebridad.notifyAllObservers(objectoRecibido);
+                    }
 
                 }
+
 
 
 
